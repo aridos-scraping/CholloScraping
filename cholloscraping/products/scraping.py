@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
+import time
 
 def getGraphicCards():
     npages = 0
@@ -48,4 +49,18 @@ def getGraphicCards():
             print("There is no more products, pages registered in total: {}".format(npages))
             print("-----------------------")
 
-getGraphicCards()
+def scrapAll():
+    start_time = time.perf_counter()
+    start_cpu = time.process_time()
+
+    getGraphicCards()
+
+    end_time = time.perf_counter()
+    end_cpu = time.process_time()
+
+    #Time spent in total
+    print("Elapsed time: {0:.3f} (s)".format(end_time-start_time))
+    #Time spent only CPU    
+    print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
+
+scrapAll()
