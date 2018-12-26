@@ -1,43 +1,51 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 
+def getGraphicCards():
+    npages = 0
+    i = 0
+    #Max refreshes whenever a page has articles
+    max = 1
 
-paginas = []
-i=0
-max=20
-while i<=max:
-    paginas.append("https://www.pccomponentes.com/listado/ajax?page=" + str(i) + "&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6")
-    i= i+1
+    while i<max:
+        #The first page index = 0
+        #Ej: https://www.pccomponentes.com/listado/ajax?page=3&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6
+        actual_page = "https://www.pccomponentes.com/listado/ajax?page=" + str(i) + "&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6"
+        req = Request(actual_page, headers={'User-Agent': 'Mozilla/5.0'})
+        webpage = urlopen(req).read()
+        soup = BeautifulSoup(webpage, "lxml")
+        i = i+1
+        l = soup.find_all("article", class_="tarjeta-articulo")
+        if len(l)!=0:
+            npages = npages+1
+            print("Page: "+str(i-1))        
+            max = max+1
+            for a in l:
+                sku = a.find_all("meta", itemprop="sku")[0]["content"]
+                print("SKU: " + sku)
 
-for pagina in paginas:
-    req = Request(pagina, headers={'User-Agent': 'Mozilla/5.0'})
-    webpage = urlopen(req).read()
-    soup = BeautifulSoup(webpage, "lxml")    
-    l = soup.find_all("article", class_="tarjeta-articulo")
+                brand = a.find_all("meta", itemprop="brand")[0]["content"]
+                print("BRAND: " + brand)
 
-    for i in l:
-        sku = i.find_all("meta", itemprop="sku")[0]["content"]
-        print("SKU:" + sku)
+                image = a.find_all("img", itemprop="image")[0]["src"]
+                imageUrl = "https:" + str(image)
+                print("IMAGE: " + imageUrl)
 
-        brand = i.find_all("meta", itemprop="brand")[0]["content"]
-        print("BRAND:" + brand)
+                name = a.find_all("a", itemprop="url")[0]["data-name"]
+                print("NAME: " + name)
 
-        image = i.find_all("img", itemprop="image")[0]["src"]
-        imageUrl = "https:" + str(image)
-        print("IMAGE:" + imageUrl)
+                category = a.find_all("a", itemprop="url")[0]["data-category"]
+                print("CATEGORY: " + category)
 
-        name = i.find_all("a", itemprop="url")[0]["data-name"]
-        print("NAME: " + name)
+                currentPrice = a.find_all("a", itemprop="url")[0]["data-price"]
+                print("CURRENT PRICE: " + currentPrice)
 
-        category = i.find_all("a", itemprop="url")[0]["data-category"]
-        print("CATEGORY: " + category)
+                originalPrice = a.find_all("meta", itemprop="price")[0]["content"]
+                print("ORIGINAL PRICE: " + originalPrice)
 
-        currentPrice = i.find_all("a", itemprop="url")[0]["data-price"]
-        print("CURRENT PRICE: " + currentPrice)
+                print("-----------------------")
+        else:
+            print("There is no more products, pages registered in total: {}".format(npages))
+            print("-----------------------")
 
-        originalPrice = i.find_all("meta", itemprop="price")[0]["content"]
-        print("ORIGINAL PRICE: " + originalPrice)
-
-
-        print("-----------------------")
-
+getGraphicCards()
