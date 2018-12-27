@@ -2,7 +2,19 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import time
 
-def getGraphicCards():
+#Need all the categories available -  some examples at the moment
+category_map = {
+    'Motherboards':'&order=relevance&gtmTitle=Placas%20Base&idFamilies%5B%5D=3',
+    'CPUs':'&order=relevance&gtmTitle=Procesadores%20para%20el%20PC&idFamilies%5B%5D=4',
+    'HardDrives': '&order=relevance&gtmTitle=Discos%20Duros&idFamilies%5B%5D=5',
+    'GraphicCards':'&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6',
+    'RAM':'&order=relevance&gtmTitle=Memorias%20RAM&idFamilies%5B%5D=7',
+    'Laptops':'&order=relevance&gtmTitle=Port%C3%A1tiles&idFamilies%5B%5D=1115',
+    'GamingLaptops':'&order=relevance&gtmTitle=Port%C3%A1tiles%20Gaming&idFamilies%5B%5D=1115',
+}
+
+def scrapeProductsByCategory(category):
+    category_page = category_map[category]
     npages = 0
     i = 0
     #Max refreshes whenever a page has articles
@@ -11,7 +23,7 @@ def getGraphicCards():
     while i<max:
         #The first page index = 0
         #Ej: https://www.pccomponentes.com/listado/ajax?page=3&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6
-        actual_page = "https://www.pccomponentes.com/listado/ajax?page=" + str(i) + "&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6"
+        actual_page = "https://www.pccomponentes.com/listado/ajax?page=" + str(i) + category_page
         req = Request(actual_page, headers={'User-Agent': 'Mozilla/5.0'})
         webpage = urlopen(req).read()
         soup = BeautifulSoup(webpage, "lxml")
@@ -46,14 +58,15 @@ def getGraphicCards():
 
                 print("-----------------------")
         else:
-            print("There is no more products, pages registered in total: {}".format(npages))
-            print("-----------------------")
+            print("There is no more products for this category, pages registered in total: {}".format(npages))
+            print("-----------------------")    
 
-def scrapAll():
+def scrapAllProducts():
     start_time = time.perf_counter()
     start_cpu = time.process_time()
 
-    getGraphicCards()
+    for category in category_map:
+        scrapeProductsByCategory(category)
 
     end_time = time.perf_counter()
     end_cpu = time.process_time()
@@ -63,4 +76,4 @@ def scrapAll():
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
 
-scrapAll()
+scrapAllProducts()
