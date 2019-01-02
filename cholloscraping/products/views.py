@@ -1,8 +1,14 @@
 from django.shortcuts import render
+from django.http import HttpResponse#, JsonReponse
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import time
 from .models import Product, Price
+import os.path
+import json
+from whoosh.index import create_in, open_dir
+from whoosh.fields import *
+from whoosh.qparser import MultifieldParser, OrGroup
 
 category_map = {
     'Motherboards':'&order=relevance&gtmTitle=Placas%20Base&idFamilies%5B%5D=3',
@@ -12,6 +18,8 @@ category_map = {
     'RAM':'&order=relevance&gtmTitle=Memorias%20RAM&idFamilies%5B%5D=7',
     'Laptops':'&order=relevance&gtmTitle=Port%C3%A1tiles&idFamilies%5B%5D=1115',
     'GamingLaptops':'&order=relevance&gtmTitle=Port%C3%A1tiles%20Gaming&idFamilies%5B%5D=1115',
+    'Smartphones':'&order=relevance&gtmTitle=M%C3%B3viles%20libres%20y%20Smartphones&idFamilies%5B%5D=1116',
+    'TVs':'&order=relevance&gtmTitle=Televisores&idFamilies%5B%5D=1179'
 }
 
 def scrapeProductsByCategory(category):
@@ -82,18 +90,65 @@ def scrapAllProducts():
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
 
-
-
 def index(request):
 	products = Product.objects.all()
 	context = {
-	'products': products
+	    'products': products
 	}
 	return render(request, 'index.html', context)
 
 def details(request, sku):
 	product = Product.objects.get(pk=sku)
 	context = {
-	'product':product
+	    'product': product
 	}
 	return render(request,'details.html',context)
+
+#Gets all products from DB and makes index
+def indexWhoosh(request):
+    start_time = time.perf_counter()
+    start_cpu = time.process_time()
+
+    schema = Schema(brand=TEXT(stored=True), name=TEXT(stored=True), category=TEXT(stored=True, sortable=True), price=NUMERIC(Decimal,decimal_places=2,stored=True,sortable=True))
+    
+    if not os.path.exists("whooshdir"):
+        os.mkdir("whooshdir")
+    ix = create_in("whooshdir",schema)
+    writer = ix.writer()
+
+    products = Product.objects.all()
+    for product in products:
+        #Temporal price model
+        writer.add_document(brand=product.brand, name=product.name, category=product.category, price=Price.objects.filter(product=product).reverse()[0].originalPrice)
+    writer.commit()
+
+    end_time = time.perf_counter()
+    end_cpu = time.process_time()
+
+    #Time spent in total
+    print("Elapsed time: {0:.3f} (s)".format(end_time-start_time))
+    #Time spent only CPU    
+    print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
+
+    return HttpResponse('{} products indexed in {}'.format(len(products),end_time-start_time))
+
+#Search-whoosh products by query
+def searchWhoosh(request):
+    ix = open_dir("whooshdir")
+    qp = MultifieldParser(['brand','name','category','price'], schema=ix.schema, group=OrGroup)
+    
+    q = qp.parse(request.GET.get('query'))
+
+    with ix.searcher() as searcher:
+        #Gets the top X results for the query where X=query_limit
+        results = searcher.search(q,limit=int(request.GET.get('query_limit')))
+        print("{} products".format(len(results)))
+        results_json = []
+        for r in results:
+            product_str = r['brand']+" - "+r['name']+" - "+r['category']+" - "+str(r['price'])+"€"
+            results_json.append(product_str)
+        print('--------------END SEARCH--------------')
+        data = json.dumps(results_json)
+
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
