@@ -14,8 +14,8 @@ class Product(models.Model):
 
 class Price(models.Model):
 
-    originalPrice = models.IntegerField()
-    currentPrice = models.IntegerField()
+    originalPrice = models.FloatField()
+    currentPrice = models.FloatField()
     
     timestamp = models.DateTimeField(auto_now_add=True)
 
