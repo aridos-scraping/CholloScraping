@@ -11,6 +11,8 @@ category_map = {
     'RAM':'&order=relevance&gtmTitle=Memorias%20RAM&idFamilies%5B%5D=7',
     'Laptops':'&order=relevance&gtmTitle=Port%C3%A1tiles&idFamilies%5B%5D=1115',
     'GamingLaptops':'&order=relevance&gtmTitle=Port%C3%A1tiles%20Gaming&idFamilies%5B%5D=1115',
+    'Smartphones':'&order=relevance&gtmTitle=M%C3%B3viles%20libres%20y%20Smartphones&idFamilies%5B%5D=1116',
+    'TVs':'&order=relevance&gtmTitle=Televisores&idFamilies%5B%5D=1179'
 }
 
 def scrapeProductsByCategory(category):
@@ -61,7 +63,7 @@ def scrapeProductsByCategory(category):
             print("There is no more products for this category, pages registered in total: {}".format(npages))
             print("-----------------------")    
 
-def scrapAllProducts():
+def scrapeAllProducts():
     start_time = time.perf_counter()
     start_cpu = time.process_time()
 
@@ -76,4 +78,4 @@ def scrapAllProducts():
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
 
-scrapAllProducts()
+scrapeAllProducts()
