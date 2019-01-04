@@ -61,20 +61,32 @@
 		</div>
 	</nav>
 
-	<h1>Welcome to Cholloscrapping</h1>
-	<i>List of products from <a target="_blank" href="https://www.pccomponentes.com">PcComponentes.</a></i>
-	<br><br>
+	<h1 class="text-center">Bienvenido a Cholloscrapping</h1>
+	<p class="text-center">
+		<i>Estos productos son de <a target="_blank" href="https://www.pccomponentes.com">PcComponentes.</a></i>
+	</p>
 
 <form id="searchWhoosh" action="{% url 'searchWhoosh' %}">
 	{% csrf_token %}
-	<input type="text" id="search" name="q">
-	<input type="number" id="query-limit" name="limit" min="1" value="10">
-	<button type="submit" id="searchsubmit">Search</button>
+	<div class="row">
+		<div class="col">
+			<label for="search">Buscar</label>
+			<input type="text" class="form-control form-control-sm" id="search" placeholder="Buscar en Cholloscrapping" name="q"><br>
+		</div>
+		<div class="col">
+			<label for="query-limit">Número de artículos</label>
+			<input type="number" class="form-control form-control-sm" id="query-limit" name="limit" min="1" value="10"><br>
+		</div>
+	</div>
+	<p class="text-center">
+		<button type="submit" class="btn btn-primary" id="searchsubmit">Buscar</button>
+	</p>
 </form>
 
 <div id="productsWhoosh">
 </div>
 
+<h3 class="text-center">Lista de todos los productos</h3>
 <div class="grid">  
 {% for product in products %}
 	<div class="module">
@@ -82,7 +94,6 @@
 		<img style="margin-left: 30px;" width="150px" src="{{product.image}}"></a>
 		<br>
 		<p style="text-align: center;">{{ product.name }}</p>
-		
 	</div>
 {% endfor %}
 </div>
@@ -116,9 +127,6 @@
 
 	</script>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 </body>
 </html>
