@@ -152,3 +152,6 @@ def searchWhoosh(request):
 
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+def menu(request):
+    return render(request, 'menu.html')
