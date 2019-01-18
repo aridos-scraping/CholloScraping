@@ -1,0 +1,35 @@
+<p>Mostrando página
+        <select id="pages" onchange="getProducts()">
+    {% for i in range %} 
+        {% if i == pag_num %}
+            <option selected value="{{i}}">
+                {{i}}
+            </option>
+        {% else %}
+            <option value="{{i}}">
+                {{i}}
+            </option>
+        {% endif %}
+    {% endfor %}
+        </select>
+    de {{total_pages}}</p>
+<div class="grid">  
+{% for product in products %}
+    <div class="module">
+    <a href="details/{{product.sku}}">
+        <img style="margin-left: 30px;" width="150px" src="{{product.image}}"></a>
+        <br>
+        <p style="text-align: center;">{{ product.name }}</p>
+    </div>
+{% endfor %}
+</div>
+
+<script type="text/javascript">
+    
+        function getProducts(){
+        var select = document.getElementById("pages");
+        var page_number = select.options[select.selectedIndex].value;
+        window.location.replace("{{redirect_uri}}/"+page_number);
+    }
+
+</script>

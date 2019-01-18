@@ -5,6 +5,7 @@ from urllib.request import Request, urlopen
 import time
 from .models import Product, Price
 import os.path
+from math import ceil
 import json
 from whoosh.index import create_in, open_dir
 from whoosh.fields import *
@@ -90,19 +91,29 @@ def scrapAllProducts():
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
 
-def index(request):
-	products = Product.objects.all()
-	context = {
-	    'products': products
-	}
-	return render(request, 'index.html', context)
+def listProducts(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.all()[first:top+1]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages),
+        'redirect_uri': '/products/list-products'
+    }
+    return render(request, 'list-products.html', context)
 
 def details(request, sku):
-	product = Product.objects.get(pk=sku)
-	context = {
-	    'product': product
-	}
-	return render(request,'details.html',context)
+    product = Product.objects.get(pk=sku)
+    prices = Price.objects.filter(product__sku=sku)
+    context = {
+        'product': product,
+        'prices': prices
+    }
+    return render(request,'details.html',context)
 
 #Gets all products from DB and makes index
 def indexWhoosh(request):
@@ -154,5 +165,5 @@ def searchWhoosh(request):
     mimetype = 'application/json'
     return HttpResponse(json.dumps(results_json), mimetype)
 
-def menu(request):
-    return render(request, 'menu.html')
+def index(request):
+    return render(request, 'index.html')
