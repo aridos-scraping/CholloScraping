@@ -4,7 +4,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('',views.index, name='index'),
+    path('list-products',views.listProducts, name='listProducts'),
+    path('list-products/<slug:pag_num>',views.listProducts, name='listProducts'),
     path('details/<slug:sku>/',views.details, name='details'),
     path('refreshWhoosh/',views.indexWhoosh, name='indexWhoosh'),
     path('searchWhoosh/',views.searchWhoosh, name='searchWhoosh')

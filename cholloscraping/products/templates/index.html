@@ -1,132 +1,47 @@
 <!DOCTYPE html>
-<html>
+
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-	<title>Cholloscrapping</title>
-	<style type="text/css">
-			body {
-	  margin: 0 auto;
-	  max-width: 56em;
-	  padding: 1em 0;
-	}
-
-	.grid {
-	  /* Grid Fallback */
-	  display: flex;
-	  flex-wrap: wrap;
-	  
-	  /* Supports Grid */
-	  display: grid;
-	  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-	  grid-auto-rows: minmax(150px, auto);
-	  grid-gap: 1em;
-	}
-
-	.module {
-	  /* Demo-Specific Styles */
-	  background: #eaeaea;
-	  align-items: center;
-	  justify-content: center;
-	  height: 200px;
-	  
-	  /* Flex Fallback */
-	  margin-left: 5px;
-	  margin-right: 5px;
-	  flex: 1 1 200px;
-	}
-
-	/* If Grid is supported, remove the margin we set for the fallback */
-	@supports (display: grid) {
-	  .module {
-	    margin: 0;
-	  }
-	}
-	</style>
+    <title>Cholloscraping</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
+
 <body>
 
-	<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark ">
-		<a class="navbar-brand" href="{% url 'menu' %}">Inicio</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-				<a class="nav-item nav-link" href="{% url 'index' %}">Productos <span class="sr-only">(current)</span></a>
-				<a class="nav-item nav-link" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
-				<a class="nav-item nav-link" href="{% url 'searchWhoosh' %}">Buscar Whoosh</a>
-			</div>
-		</div>
-	</nav>
-
-	<h1 class="text-center">Bienvenido a Cholloscrapping</h1>
-	<p class="text-center">
-		<i>Estos productos son de <a target="_blank" href="https://www.pccomponentes.com">PcComponentes.</a></i>
-	</p>
-
-<form id="searchWhoosh" action="{% url 'searchWhoosh' %}">
-	{% csrf_token %}
-	<div class="row">
-		<div class="col">
-			<label for="search">Buscar</label>
-			<input type="text" class="form-control form-control-sm" id="search" placeholder="Buscar en Cholloscrapping" name="q"><br>
-		</div>
-		<div class="col">
-			<label for="query-limit">Número de artículos</label>
-			<input type="number" class="form-control form-control-sm" id="query-limit" name="limit" min="1" value="10"><br>
-		</div>
-	</div>
-	<p class="text-center">
-		<button type="submit" class="btn btn-primary" id="searchsubmit">Buscar</button>
-	</p>
-</form>
-
-<div id="productsWhoosh">
-</div>
-
-<h3 class="text-center">Lista de todos los productos</h3>
-<div class="grid">  
-{% for product in products %}
-	<div class="module">
-	<a href="details/{{product.sku}}">
-		<img style="margin-left: 30px;" width="150px" src="{{product.image}}"></a>
-		<br>
-		<p style="text-align: center;">{{ product.name }}</p>
-	</div>
-{% endfor %}
-</div>
-
-	<script>
-
-	$('#searchsubmit').on('click', function(e){
-		e.preventDefault();
-
-		q = $('#search').val();
-		ql = $('#query-limit').val();
-
-		$.ajax({
-			url: '/products/searchWhoosh/',
-			data: {
-				'query': q,
-				'query_limit': ql
-			},
-			dataType: 'json',
-			success: function (data) {
-				console.log(data);
-				$("#productsWhoosh").html("");
-				data.forEach((product)=>{
-					let p = document.createElement('p');
-					p.innerText = product;
-					document.querySelector('#productsWhoosh').appendChild(p);
-				})
-			}
-		}); 
-  });
-
-	</script>
-
-
 </body>
+</html>
+
+<!doctype html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Cholloscraping</title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark ">
+      <a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="{% url 'listProducts' %}">Productos <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
+            <a class="nav-item nav-link" href="{% url 'searchWhoosh' %}">Buscar Whoosh</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
 </html>
