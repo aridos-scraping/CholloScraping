@@ -16,7 +16,7 @@
 <div class="grid">  
 {% for product in products %}
     <div class="module">
-    <a href="details/{{product.sku}}">
+    <a href="/products/details/{{product.sku}}">
         <img style="margin-left: 30px;" width="150px" src="{{product.image}}"></a>
         <br>
         <p style="text-align: center;">{{ product.name }}</p>

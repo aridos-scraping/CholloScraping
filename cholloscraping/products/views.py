@@ -94,14 +94,14 @@ def scrapAllProducts():
 def listProducts(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.all()[first:top+1]
+    products = Product.objects.all()[first-1:top]
     total_pages = ceil(Product.objects.count()/12)
     context = {
         'products': products,
         #Variables para paginacion
         'pag_num': int(pag_num),
         'total_pages': total_pages,
-        'range': range(1, total_pages),
+        'range': range(1, total_pages+1),
         'redirect_uri': '/products/list-products'
     }
     return render(request, 'list-products.html', context)
