@@ -117,10 +117,30 @@
 				console.log(data);
 				$("#productsWhoosh").html("");
 				data.forEach((product)=>{
-					let p = document.createElement('p');
-					p.innerText = product;
-					document.querySelector('#productsWhoosh').appendChild(p);
+					let productDiv = document.createElement("div");
+					let productImage = document.createElement("img");
+					productImage.src = product[1];
+					productImage.style.width = "150px";
+
+					var viewButton = document.createElement("input");
+					viewButton.type = "button";
+					viewButton.value = "View";
+					viewButton.onclick = function(){
+						location.href = "details/"+product[0];
+					}
+
+					let productInfo = document.createElement('p');
+					productInfo.style = "display:inline; margin-left:15px; margin-right:30px;";
+					productInfo.innerText = product[2]+" - "+product[3]+" - "+product[4]+" - "+product[5]+"€";
+
+					document.querySelector('#productsWhoosh').appendChild(productDiv);
+					productDiv.appendChild(productImage);
+					productDiv.appendChild(productInfo);
+					productDiv.appendChild(viewButton);
 				})
+			},
+			error: function (){
+				console.log("Can't retrieve products from DB");
 			}
 		}); 
   });
