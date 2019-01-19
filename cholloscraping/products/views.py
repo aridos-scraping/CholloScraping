@@ -263,7 +263,7 @@ def listMotherboards(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Placas Base')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Placas Base').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -278,7 +278,7 @@ def listCPUs(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Procesadores')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Procesadores').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -293,7 +293,7 @@ def listHardDrives(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Discos Duros')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Discos Duros').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -308,7 +308,7 @@ def listGraphicCards(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Tarjetas Gráficas')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Tarjetas Gráficas').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -323,7 +323,7 @@ def listRAM(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Memorias RAM')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Memorias RAM').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -353,7 +353,7 @@ def listGamingLaptops(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Portátiles Gaming')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Portátiles Gaming').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -368,7 +368,7 @@ def listSmartphones(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Smartphone/Móviles')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Smartphone/Móviles').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -383,7 +383,7 @@ def listTVs(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Televisores')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Televisores').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -394,6 +394,7 @@ def listTVs(request, pag_num=1):
     }
     return render(request, 'list-products.html', context)
 
+#This will be called listMostRatedProducts in the future
 def listProducts(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
