@@ -75,7 +75,7 @@ def scrapeProductsByCategory(category):
             print("There is no more products for this category, pages registered in total: {}".format(npages))
             print("-----------------------")    
 
-def scrapAllProducts():
+def scrapAllProducts(request):
     start_time = time.perf_counter()
     start_cpu = time.process_time()
 
@@ -89,6 +89,82 @@ def scrapAllProducts():
     print("Elapsed time: {0:.3f} (s)".format(end_time-start_time))
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
+
+    return HttpResponse('Se han actualizado todos los productos en {} segundos'.format(end_time-start_time))
+
+def scrapMotherboards(request):
+    scrapeProductsByCategory("Motherboards")
+    products = Product.objects.filter(category='Placas Base')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapCPUs(request):
+    scrapeProductsByCategory("CPUs")
+    products = Product.objects.filter(category='Procesadores')
+    print(products)
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapHardDrives(request):
+    scrapeProductsByCategory("HardDrives")
+    products = Product.objects.filter(category='Discos Duros')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapGraphicCards(request):
+    scrapeProductsByCategory("GraphicCards")
+    products = Product.objects.filter(category='Tarjetas Gráficas')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapRAM(request):
+    scrapeProductsByCategory("RAM")
+    products = Product.objects.filter(category='Memorias RAM')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapLaptops(request):
+    scrapeProductsByCategory("Laptops")
+    products = Product.objects.filter(category='Portátiles')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapGamingLaptops(request):
+    scrapeProductsByCategory("GamingLaptops")
+    products = Product.objects.filter(category='Portátiles Gaming')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapSmartphones(request):
+    scrapeProductsByCategory("Smartphones")
+    products = Product.objects.filter(category='Smartphone/Móviles')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
+def scrapTVs(request):
+    scrapeProductsByCategory("TVs")
+    products = Product.objects.filter(category='Televisores')
+    context = {
+        'products': products
+    }
+    return render(request,'index.html',context)
+
 
 def index(request):
 	products = Product.objects.all()

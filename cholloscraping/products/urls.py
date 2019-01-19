@@ -7,5 +7,15 @@ urlpatterns = [
     path('',views.index, name='index'),
     path('details/<slug:sku>/',views.details, name='details'),
     path('refreshWhoosh/',views.indexWhoosh, name='indexWhoosh'),
-    path('searchWhoosh/',views.searchWhoosh, name='searchWhoosh')
+    path('searchWhoosh/',views.searchWhoosh, name='searchWhoosh'),
+    path('reloadAll/',views.scrapAllProducts, name='reloadAll'),
+    path('reloadMb/',views.scrapMotherboards, name='reloadMb'),
+    path('reloadCp/',views.scrapCPUs, name='reloadCp'),
+    path('reloadHd/',views.scrapHardDrives, name='reloadHd'),
+    path('reloadGc/',views.scrapGraphicCards, name='reloadGc'),
+    path('reloadRa/',views.scrapRAM, name='reloadRa'),
+    path('reloadLa/',views.scrapLaptops, name='reloadLa'),
+    path('reloadGl/',views.scrapGamingLaptops, name='reloadGl'),
+    path('reloadSm/',views.scrapSmartphones, name='reloadSm'),
+    path('reloadTv/',views.scrapTVs, name='reloadTv')
 ]
