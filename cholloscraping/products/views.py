@@ -92,7 +92,7 @@ def scrapAllProducts(request):
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
 
-    return HttpResponse('Se han actualizado todos los productos en {} segundos'.format(end_time-start_time))
+    return HttpResponse('Se han insertado {} productos en {} segundos'.format(Product.objects.count(),end_time-start_time))
 
 def scrapMotherboards(request):
     scrapeProductsByCategory("Motherboards")
@@ -270,10 +270,11 @@ def insertExampleProductPrices(request):
     products = Product.objects.all()
     for p in products:
         # Adds new random price to product
-        randomPrice = p.price.originalPrice+random.randint(1,51)
+        actualPrice = Price.objects.filter(product=p).reverse()[0].originalPrice
+        randomPrice = actualPrice+random.randint(1,51)
         newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice, product=p)
         newPrice.save()
-        print(newPrice)
+        print(p.name+" - "+str(actualPrice)+" -> "+str(randomPrice))
     return render(request, 'index.html')
 
 def index(request):
