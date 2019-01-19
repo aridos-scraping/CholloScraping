@@ -8,25 +8,88 @@
 <body>
 
 	<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark ">
-		<a class="navbar-brand" href="{% url 'menu' %}">Inicio</a>
+		<a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-item nav-link" href="{% url 'index' %}">Productos <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="{% url 'listProducts' %}">Productos <span class="sr-only">(current)</span></a>
 				<a class="nav-item nav-link" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
-				<a class="nav-item nav-link" href="{% url 'searchWhoosh' %}">Buscar Whoosh</a>
 			</div>
 		</div>
 	</nav>
 
 	<h1>Product details</h1> <br>
-	<a href="/products">Go back.</a><br>
+	<a href="/products/list-products">Go back.</a><br>
 	<h2>{{product.name}}</h2><br>
 	<i>{{product.brand}}</i><br>
 	<i>{{product.category}}</i><br>
 	<img src="{{product.image}}">
 	
+<div style="width: 100%;" id="chart_div"></div>
 </body>
+
+<script type="text/javascript">
+	var currentPrices = [];
+	var originalPrices = [];
+	var priceDates = [];
+</script>
+{% for price in prices %}
+	<script type="text/javascript">
+		priceDates.push('{{price.timestamp.isoformat}}');
+		currentPrices.push('{{price.currentPrice}}');
+		originalPrices.push('{{price.originalPrice}}');
+	</script>
+{% endfor %}
+	
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+	function displayPrices() {
+
+		google.charts.load('current', {
+			packages : [ 'corechart', 'line' ]
+		});
+		google.charts.setOnLoadCallback(drawLineColors);
+
+		function drawLineColors() {
+			var data = new google.visualization.DataTable();
+			data.addColumn('date', 'X');
+			data.addColumn('number', 'Precio original');
+			data.addColumn('number', 'Precio especial');
+
+			for ( var i = 0, len = originalPrices.length; i < len; i++) {
+				var d = new Date(priceDates[i]);
+				data.addRow([ d, parseFloat(originalPrices[i]),
+						parseFloat(currentPrices[i]) ]);
+
+			}
+
+			var options = {
+				pointsVisible : true,
+				hAxis : {
+					title : 'Variación de precios',
+					maxValue : new Date()
+				},
+				vAxis : {
+					format : 'decimal'
+				},
+				colors : [ '#a52714', '#097138', 'red', 'blue', 'yellow' ]
+			};
+
+			var chart = new google.visualization.LineChart(document
+					.getElementById('chart_div'));
+			chart.draw(data, options);
+
+		}
+	}
+
+	window.onload = function() {
+  displayPrices();
+};
+</script>
+
+
 </html>

@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse#, JsonReponse
+from django.http import HttpResponse, JsonResponse
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import time
 from .models import Product, Price
 import os.path
+from math import ceil
 import json
 from whoosh.index import create_in, open_dir
 from whoosh.fields import *
@@ -172,20 +173,37 @@ def index(request):
 	    'products': products
 	}
 	return render(request, 'index.html', context)
+def listProducts(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.all()[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/list-products'
+    }
+    return render(request, 'list-products.html', context)
 
 def details(request, sku):
-	product = Product.objects.get(pk=sku)
-	context = {
-	    'product': product
-	}
-	return render(request,'details.html',context)
+    product = Product.objects.get(pk=sku)
+    prices = Price.objects.filter(product__sku=sku)
+    context = {
+        'product': product,
+        'prices': prices
+    }
+    return render(request,'details.html',context)
 
 #Gets all products from DB and makes index
 def indexWhoosh(request):
     start_time = time.perf_counter()
     start_cpu = time.process_time()
 
-    schema = Schema(brand=TEXT(stored=True), name=TEXT(stored=True), category=TEXT(stored=True, sortable=True), price=NUMERIC(Decimal,decimal_places=2,stored=True,sortable=True))
+    schema = Schema(sku=NUMERIC(stored=True), image=STORED(), brand=TEXT(stored=True), name=TEXT(stored=True),
+                    category=TEXT(stored=True, sortable=True), price=NUMERIC(Decimal,decimal_places=2,stored=True,sortable=True))
     
     if not os.path.exists("whooshdir"):
         os.mkdir("whooshdir")
@@ -194,8 +212,8 @@ def indexWhoosh(request):
 
     products = Product.objects.all()
     for product in products:
-        #Temporal price model
-        writer.add_document(brand=product.brand, name=product.name, category=product.category, price=Price.objects.filter(product=product).reverse()[0].originalPrice)
+        writer.add_document(sku=product.sku, image="http:"+product.image, brand=product.brand, name=product.name, 
+                            category=product.category, price=Price.objects.filter(product=product).reverse()[0].originalPrice)
     writer.commit()
 
     end_time = time.perf_counter()
@@ -221,13 +239,13 @@ def searchWhoosh(request):
         print("{} products".format(len(results)))
         results_json = []
         for r in results:
-            product_str = r['brand']+" - "+r['name']+" - "+r['category']+" - "+str(r['price'])+"€"
-            results_json.append(product_str)
+            #product = r['brand']+" - "+r['name']+" - "+r['category']+" - "+str(r['price'])+"€"
+            product = [r['sku'], r['image'], r['brand'], r['name'], r['category'], r['price']]
+            results_json.append(product)
         print('--------------END SEARCH--------------')
-        data = json.dumps(results_json)
-
+    print(results_json)
     mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(json.dumps(results_json), mimetype)
 
-def menu(request):
-    return render(request, 'menu.html')
+def index(request):
+    return render(request, 'index.html')
