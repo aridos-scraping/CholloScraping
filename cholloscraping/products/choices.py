@@ -5,6 +5,8 @@ GRAPHICCARDS='gc'
 RAM='ra'
 LAPTOPS='la'
 GAMINGLAPTOPS='gl'
+SMARTPHONES='sm'
+TVS='tv'
 
 CAT_CHOICES = (
     (MOTHERBOARDS, 'Placas base'),
@@ -14,6 +16,8 @@ CAT_CHOICES = (
     (RAM, 'RAM'),
     (LAPTOPS, 'Portátiles'),
     (GAMINGLAPTOPS, 'Portátiles Gaming'),
+    (SMARTPHONES, 'Smartphones'),
+    (TVS, 'Televisores')
 )
 
 #Import:
