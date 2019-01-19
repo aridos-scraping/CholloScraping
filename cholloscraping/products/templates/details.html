@@ -4,6 +4,52 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
 	<title>Cholloscrapping</title>
+
+<style type="text/css">
+		
+	@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+	fieldset, label { margin: 0; padding: 0; }
+	body{ margin: 20px; }
+	h1 { font-size: 1.5em; margin: 10px; }
+
+	/****** Style Star Rating Widget *****/
+
+	.rating { 
+	  border: none;
+	  float: left;
+	}
+
+	.rating > input { display: none; } 
+	.rating > label:before { 
+	  margin: 5px;
+	  font-size: 1.25em;
+	  font-family: FontAwesome;
+	  display: inline-block;
+	  content: "\f005";
+	}
+
+	.rating > .half:before { 
+	  content: "\f089";
+	  position: absolute;
+	}
+
+	.rating > label { 
+	  color: #ddd; 
+	 float: right; 
+	}
+
+	/***** CSS Magic to Highlight Stars on Hover *****/
+
+	.rating > input:checked ~ label, /* show gold star when clicked */
+	.rating:not(:checked) > label:hover, /* hover current star */
+	.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+	.rating > input:checked + label:hover, /* hover current star when changing rating */
+	.rating > input:checked ~ label:hover,
+	.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+	.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+	</style>
 </head>
 <body>
 
@@ -22,7 +68,34 @@
 
 	<h1>Product details</h1> <br>
 	<a href="/products/list-products">Go back.</a><br>
-	<h2>{{product.name}}</h2><br>
+	<h2>{{product.name}}</h2>
+	<fieldset class="rating" onchange="sendRating()" id="rating_field">
+    {% if rating == '5' %}
+    	<input type="radio" id="star5" checked="checked" name="rating" value="5" /><label class = "full" for="star5" title="Perfecto"></label>
+    {% else %}
+		<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Perfecto"></label>
+    {% endif %}
+    {% if rating == '4' %}
+    	<input type="radio" id="star4" checked="checked" name="rating" value="4" /><label class = "full" for="star4" title="Perfecto"></label>
+    {% else %}
+		<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Perfecto"></label>
+    {% endif %}
+    {% if rating == '3' %}
+    	<input type="radio" id="star3" checked="checked" name="rating" value="3" /><label class = "full" for="star3" title="Perfecto"></label>
+    {% else %}
+		<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Perfecto"></label>
+    {% endif %}
+    {% if rating == '2' %}
+    	<input type="radio" id="star2" checked="checked" name="rating" value="2" /><label class = "full" for="star2" title="Perfecto"></label>
+    {% else %}
+		<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Perfecto"></label>
+    {% endif %}
+    {% if rating == '1' %}
+    	<input type="radio" id="star1" checked="checked" name="rating" value="1" /><label class = "full" for="star1" title="Perfecto"></label>
+    {% else %}
+		<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Perfecto"></label>
+    {% endif %}
+</fieldset><br><br>
 	<i>{{product.brand}}</i><br>
 	<i>{{product.category}}</i><br>
 	<img src="{{product.image}}">
@@ -47,6 +120,14 @@
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
+
+
+	function sendRating(){
+        var rating = document.getElementById("rating_field");
+        rating = document.querySelector('input[name="rating"]:checked').value
+        window.location.replace("/products/rate-product/{{product.sku}}/"+rating);
+	}
+
 	function displayPrices() {
 
 		google.charts.load('current', {
