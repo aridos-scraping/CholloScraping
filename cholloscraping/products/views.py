@@ -10,6 +10,7 @@ import json
 from whoosh.index import create_in, open_dir
 from whoosh.fields import *
 from whoosh.qparser import MultifieldParser, OrGroup
+import random
 
 category_map = {
     'Motherboards':'&order=relevance&gtmTitle=Placas%20Base&idFamilies%5B%5D=3',
@@ -94,7 +95,7 @@ def scrapAllProducts(request):
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
 
-    return HttpResponse('Se han actualizado todos los productos en {} segundos'.format(end_time-start_time))
+    return HttpResponse('Se han insertado {} productos en {} segundos'.format(Product.objects.count(),end_time-start_time))
 
 def scrapMotherboards(request, pag_num=1):
     scrapeProductsByCategory("Motherboards")
@@ -393,13 +394,6 @@ def listTVs(request, pag_num=1):
     }
     return render(request, 'list-products.html', context)
 
-
-def index(request):
-	products = Product.objects.all()
-	context = {
-	    'products': products
-	}
-	return render(request, 'index.html', context)
 def listProducts(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
@@ -498,6 +492,17 @@ def searchWhoosh(request):
     print(results_json)
     mimetype = 'application/json'
     return HttpResponse(json.dumps(results_json), mimetype)
+
+def insertExampleProductPrices(request):
+    products = Product.objects.all()
+    for p in products:
+        # Adds new random price to product
+        actualPrice = Price.objects.filter(product=p).reverse()[0].originalPrice
+        randomPrice = actualPrice+random.randint(1,51)
+        newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice, product=p)
+        newPrice.save()
+        print(p.name+" - "+str(actualPrice)+" -> "+str(randomPrice))
+    return render(request, 'index.html')
 
 def index(request):
     return render(request, 'index.html')
