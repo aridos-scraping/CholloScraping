@@ -25,7 +25,9 @@ class Product(models.Model):
 
 class Price(models.Model):
 
+    #Price without discount
     originalPrice = models.FloatField()
+    #Price with discount
     currentPrice = models.FloatField()
     
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -33,4 +35,4 @@ class Price(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Precio de ' + self.product.name
+        return 'Precio de ' + self.product.name + " = " + str(self.originalPrice) + "-" + str(self.currentPrice)

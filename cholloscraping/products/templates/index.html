@@ -33,9 +33,20 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="{% url 'listProducts' %}">Productos <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
+            <a class="nav-item nav-link" href="{% url 'insertExamplePrices' %}">Insertar precios ejemplo</a>
         </div>
       </div>
     </nav>
+
+  {% block content %}
+    {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+      <p><a href="{% url 'logout' %}">logout</a></p>
+    {% else %}
+      <p>You are not logged in</p>
+      <a href="{% url 'login' %}">login</a>
+    {% endif %}
+  {% endblock %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

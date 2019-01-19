@@ -19,5 +19,6 @@ urlpatterns = [
     path('reloadLa/',views.scrapLaptops, name='reloadLa'),
     path('reloadGl/',views.scrapGamingLaptops, name='reloadGl'),
     path('reloadSm/',views.scrapSmartphones, name='reloadSm'),
-    path('reloadTv/',views.scrapTVs, name='reloadTv')
+    path('reloadTv/',views.scrapTVs, name='reloadTv'),
+    path('insertExamplePrices',views.insertExampleProductPrices, name='insertExamplePrices')
 ]
