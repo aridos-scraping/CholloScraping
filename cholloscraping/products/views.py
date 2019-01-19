@@ -100,7 +100,7 @@ def scrapMotherboards(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapCPUs(request):
     scrapeProductsByCategory("CPUs")
@@ -109,7 +109,7 @@ def scrapCPUs(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapHardDrives(request):
     scrapeProductsByCategory("HardDrives")
@@ -117,7 +117,7 @@ def scrapHardDrives(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapGraphicCards(request):
     scrapeProductsByCategory("GraphicCards")
@@ -125,7 +125,7 @@ def scrapGraphicCards(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapRAM(request):
     scrapeProductsByCategory("RAM")
@@ -133,7 +133,7 @@ def scrapRAM(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapLaptops(request):
     scrapeProductsByCategory("Laptops")
@@ -141,7 +141,7 @@ def scrapLaptops(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapGamingLaptops(request):
     scrapeProductsByCategory("GamingLaptops")
@@ -149,7 +149,7 @@ def scrapGamingLaptops(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapSmartphones(request):
     scrapeProductsByCategory("Smartphones")
@@ -157,7 +157,7 @@ def scrapSmartphones(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def scrapTVs(request):
     scrapeProductsByCategory("TVs")
@@ -165,7 +165,7 @@ def scrapTVs(request):
     context = {
         'products': products
     }
-    return render(request,'index.html',context)
+    return render(request,'products-grid.html',context)
 
 def listProducts(request, pag_num=1):
     top = int(pag_num)*12

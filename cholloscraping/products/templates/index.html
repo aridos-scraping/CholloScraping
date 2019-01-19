@@ -29,12 +29,38 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="{% url 'listProducts' %}">Productos <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
-            <a class="nav-item nav-link" href="{% url 'insertExamplePrices' %}">Insertar precios ejemplo</a>
-        </div>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Recargar DB
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'reloadAll' %}">Todos los productos</a>
+              <a class="dropdown-item" href="{% url 'reloadMb' %}">Placas base</a>
+              <a class="dropdown-item" href="{% url 'reloadCp' %}">CPUs</a>
+              <a class="dropdown-item" href="{% url 'reloadHd' %}">Discos Duros</a>
+              <a class="dropdown-item" href="{% url 'reloadGc' %}">Tarjetas gráficas</a>
+              <a class="dropdown-item" href="{% url 'reloadRa' %}">RAM</a>
+              <a class="dropdown-item" href="{% url 'reloadLa' %}">Portátiles</a>
+              <a class="dropdown-item" href="{% url 'reloadGl' %}">Portátiles gaming</a>
+              <a class="dropdown-item" href="{% url 'reloadSm' %}">Smartphones</a>
+              <a class="dropdown-item" href="{% url 'reloadTv' %}">Televisores</a>
+            </div>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item nav-link" href="{% url 'index' %}">Productos <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Herramientas
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
+              <a class="dropdown-item" href="{% url 'insertExamplePrices' %}">Insertar precios ejemplo</a>
+            </div>
+          </li>
+        </ul>
       </div>
     </nav>
 
