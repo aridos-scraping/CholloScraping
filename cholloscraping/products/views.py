@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import time
-from .models import Product, Price
+from .models import Product, Price, Rating
 import os.path
 from math import ceil
 import json
@@ -191,9 +191,34 @@ def listProducts(request, pag_num=1):
 def details(request, sku):
     product = Product.objects.get(pk=sku)
     prices = Price.objects.filter(product__sku=sku)
+    rating = None
+    productRating = Rating.objects.filter(product=product, user=request.user).first()
+    
+    if(productRating!=None):
+        rating = str(productRating.rating)
     context = {
         'product': product,
-        'prices': prices
+        'prices': prices,
+        'rating': rating
+    }
+    return render(request,'details.html',context)
+
+def rateProduct(request, sku, rating):
+    product = Product.objects.get(pk=sku)
+
+    productRating = Rating.objects.filter(product=product, user=request.user).first()
+    if(productRating==None):
+        productRating = Rating(product=product, user=request.user, rating=rating)
+        productRating.save()
+    else:
+        productRating.rating = rating
+        productRating.save()
+
+    prices = Price.objects.filter(product__sku=sku)
+    context = {
+        'product': product,
+        'prices': prices,
+        'rating': productRating.rating
     }
     return render(request,'details.html',context)
 
