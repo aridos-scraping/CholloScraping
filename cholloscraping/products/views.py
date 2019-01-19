@@ -394,11 +394,10 @@ def listTVs(request, pag_num=1):
     }
     return render(request, 'list-products.html', context)
 
-#This will be called listMostRatedProducts in the future
-def listProducts(request, pag_num=1):
+def listMostRatedProducts(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.all()[first-1:top]
+    products = Product.objects.order_by('-averageRating')[first-1:top]
     total_pages = ceil(Product.objects.count()/12)
     context = {
         'products': products,
@@ -436,12 +435,24 @@ def rateProduct(request, sku, rating):
         productRating.rating = rating
         productRating.save()
 
+    def recalculateProductAverageRating(product):
+        productRatings = Rating.objects.filter(product=product)
+        sumRatings = 0
+        for r in productRatings:
+            sumRatings += r.rating
+        avgProductRating = sumRatings/productRatings.count()
+        product.averageRating = avgProductRating
+        product.save()
+
     prices = Price.objects.filter(product__sku=sku)
     context = {
         'product': product,
         'prices': prices,
         'rating': productRating.rating
     }
+
+    recalculateProductAverageRating(product)
+
     return render(request,'details.html',context)
 
 #Gets all products from DB and makes index
