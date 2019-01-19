@@ -48,6 +48,23 @@
               <a class="dropdown-item" href="{% url 'reloadTv' %}">Televisores</a>
             </div>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Mostrar
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'listAll' %}">Todos los productos</a>
+              <a class="dropdown-item" href="{% url 'listMb' %}">Placas base</a>
+              <a class="dropdown-item" href="{% url 'listCp' %}">CPUs</a>
+              <a class="dropdown-item" href="{% url 'listHd' %}">Discos Duros</a>
+              <a class="dropdown-item" href="{% url 'listGc' %}">Tarjetas gráficas</a>
+              <a class="dropdown-item" href="{% url 'listRa' %}">RAM</a>
+              <a class="dropdown-item" href="{% url 'listLa' %}">Portátiles</a>
+              <a class="dropdown-item" href="{% url 'listGl' %}">Portátiles gaming</a>
+              <a class="dropdown-item" href="{% url 'listSm' %}">Smartphones</a>
+              <a class="dropdown-item" href="{% url 'listTv' %}">Televisores</a>
+            </div>
+          </li>
           <li class="nav-item active">
             <a class="nav-item nav-link" href="{% url 'index' %}">Productos <span class="sr-only">(current)</span></a>
           </li>

@@ -76,6 +76,9 @@ def scrapeProductsByCategory(category):
             print("There is no more products for this category, pages registered in total: {}".format(npages))
             print("-----------------------")    
 
+
+############################################ SCRAPING PRODUCTS #############################################################
+############################################################################################################################
 def scrapAllProducts(request):
     start_time = time.perf_counter()
     start_cpu = time.process_time()
@@ -93,78 +96,302 @@ def scrapAllProducts(request):
 
     return HttpResponse('Se han actualizado todos los productos en {} segundos'.format(end_time-start_time))
 
-def scrapMotherboards(request):
+def scrapMotherboards(request, pag_num=1):
     scrapeProductsByCategory("Motherboards")
-    products = Product.objects.filter(category='Placas Base')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Placas Base')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listMb'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapCPUs(request):
+def scrapCPUs(request, pag_num=1):
     scrapeProductsByCategory("CPUs")
-    products = Product.objects.filter(category='Procesadores')
-    print(products)
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Procesadores')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listCp'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapHardDrives(request):
+def scrapHardDrives(request, pag_num=1):
     scrapeProductsByCategory("HardDrives")
-    products = Product.objects.filter(category='Discos Duros')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Discos Duros')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listHd'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapGraphicCards(request):
+def scrapGraphicCards(request, pag_num=1):
     scrapeProductsByCategory("GraphicCards")
-    products = Product.objects.filter(category='Tarjetas Gráficas')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Tarjetas Gráficas')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listGc'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapRAM(request):
+def scrapRAM(request, pag_num=1):
     scrapeProductsByCategory("RAM")
-    products = Product.objects.filter(category='Memorias RAM')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Memorias RAM')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listRa'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapLaptops(request):
+def scrapLaptops(request, pag_num=1):
     scrapeProductsByCategory("Laptops")
-    products = Product.objects.filter(category='Portátiles')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Portátiles')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listLa'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapGamingLaptops(request):
+def scrapGamingLaptops(request, pag_num=1):
     scrapeProductsByCategory("GamingLaptops")
-    products = Product.objects.filter(category='Portátiles Gaming')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Portátiles Gaming')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listGl'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapSmartphones(request):
+def scrapSmartphones(request, pag_num=1):
     scrapeProductsByCategory("Smartphones")
-    products = Product.objects.filter(category='Smartphone/Móviles')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Smartphone/Móviles')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listSm'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
 
-def scrapTVs(request):
+def scrapTVs(request, pag_num=1):
     scrapeProductsByCategory("TVs")
-    products = Product.objects.filter(category='Televisores')
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Televisores')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
     context = {
-        'products': products
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listTv'
     }
-    return render(request,'products-grid.html',context)
+    return render(request, 'list-products.html', context)
+
+
+############################################ LISTING PRODUCTS #############################################################
+############################################################################################################################
+def listAllProducts(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.all()[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listAllProducts'
+    }
+    return render(request, 'list-products.html', context)
+
+def listMotherboards(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Placas Base')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listMb'
+    }
+    return render(request, 'list-products.html', context)
+
+def listCPUs(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Procesadores')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listCp'
+    }
+    return render(request, 'list-products.html', context)
+
+def listHardDrives(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Discos Duros')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listHd'
+    }
+    return render(request, 'list-products.html', context)
+
+def listGraphicCards(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Tarjetas Gráficas')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listGc'
+    }
+    return render(request, 'list-products.html', context)
+
+def listRAM(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Memorias RAM')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listRa'
+    }
+    return render(request, 'list-products.html', context)
+
+def listLaptops(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Portátiles')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listLa'
+    }
+    return render(request, 'list-products.html', context)
+
+def listGamingLaptops(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Portátiles Gaming')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listGl'
+    }
+    return render(request, 'list-products.html', context)
+
+def listSmartphones(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Smartphone/Móviles')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listSm'
+    }
+    return render(request, 'list-products.html', context)
+
+def listTVs(request, pag_num=1):
+    top = int(pag_num)*12
+    first = top-11
+    products = Product.objects.filter(category='Televisores')[first-1:top]
+    total_pages = ceil(Product.objects.count()/12)
+    context = {
+        'products': products,
+        #Variables para paginacion
+        'pag_num': int(pag_num),
+        'total_pages': total_pages,
+        'range': range(1, total_pages+1),
+        'redirect_uri': '/products/listTv'
+    }
+    return render(request, 'list-products.html', context)
 
 
 def index(request):
