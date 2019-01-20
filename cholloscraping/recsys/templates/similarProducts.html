@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>Recommender System CholloScraping</title>
+</head>
+<body>
+<section>
+<h1>Six products similar to {{product.name}} are:</h1>
+<l>
+{% for p in products %}
+<li>{{p.name}}</li>
+{% endfor %}
+</l>
+<i>*In order to provide better recommendations, more ratings are needed.</i>
+</section>
+</body>
+</html>
