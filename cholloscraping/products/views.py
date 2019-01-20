@@ -13,15 +13,15 @@ from whoosh.qparser import MultifieldParser, OrGroup
 import random
 
 category_map = {
-    'Motherboards':'&order=relevance&gtmTitle=Placas%20Base&idFamilies%5B%5D=3',
-    'CPUs':'&order=relevance&gtmTitle=Procesadores%20para%20el%20PC&idFamilies%5B%5D=4',
-    'HardDrives': '&order=relevance&gtmTitle=Discos%20Duros&idFamilies%5B%5D=5',
-    'GraphicCards':'&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6',
-    'RAM':'&order=relevance&gtmTitle=Memorias%20RAM&idFamilies%5B%5D=7',
-    'Laptops':'&order=relevance&gtmTitle=Port%C3%A1tiles&idFamilies%5B%5D=1115',
-    'GamingLaptops':'&order=relevance&gtmTitle=Port%C3%A1tiles%20Gaming&idFamilies%5B%5D=1115',
+    'Placas Base':'&order=relevance&gtmTitle=Placas%20Base&idFamilies%5B%5D=3',
+    'Procesadores':'&order=relevance&gtmTitle=Procesadores%20para%20el%20PC&idFamilies%5B%5D=4',
+    'Discos Duros': '&order=relevance&gtmTitle=Discos%20Duros&idFamilies%5B%5D=5',
+    'Tarjetas Graficas':'&order=relevance&gtmTitle=Tarjetas%20Gr%C3%A1ficas&idFamilies%5B%5D=6',
+    'Memoria RAM':'&order=relevance&gtmTitle=Memorias%20RAM&idFamilies%5B%5D=7',
+    'Portatiles':'&order=relevance&gtmTitle=Port%C3%A1tiles&idFamilies%5B%5D=1115',
+    'Portatiles Gaming':'&order=relevance&gtmTitle=Port%C3%A1tiles%20Gaming&idFamilies%5B%5D=1115',
     'Smartphones':'&order=relevance&gtmTitle=M%C3%B3viles%20libres%20y%20Smartphones&idFamilies%5B%5D=1116',
-    'TVs':'&order=relevance&gtmTitle=Televisores&idFamilies%5B%5D=1179'
+    'Televisores':'&order=relevance&gtmTitle=Televisores&idFamilies%5B%5D=1179'
 }
 
 def scrapeProductsByCategory(category):
@@ -58,7 +58,7 @@ def scrapeProductsByCategory(category):
                 name = a.find_all("a", itemprop="url")[0]["data-name"]
                 print("NAME: " + name)
 
-                category = a.find_all("a", itemprop="url")[0]["data-category"]
+                #category = a.find_all("a", itemprop="url")[0]["data-category"]
                 print("CATEGORY: " + category)
 
                 currentPrice = a.find_all("a", itemprop="url")[0]["data-price"]
@@ -98,7 +98,7 @@ def scrapAllProducts(request):
     return HttpResponse('Se han insertado {} productos en {} segundos'.format(Product.objects.count(),end_time-start_time))
 
 def scrapMotherboards(request, pag_num=1):
-    scrapeProductsByCategory("Motherboards")
+    scrapeProductsByCategory('Placas Base')
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Placas Base')[first-1:top]
@@ -114,7 +114,7 @@ def scrapMotherboards(request, pag_num=1):
     return render(request, 'list-products.html', context)
 
 def scrapCPUs(request, pag_num=1):
-    scrapeProductsByCategory("CPUs")
+    scrapeProductsByCategory('Procesadores')
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Procesadores')[first-1:top]
@@ -130,7 +130,7 @@ def scrapCPUs(request, pag_num=1):
     return render(request, 'list-products.html', context)
 
 def scrapHardDrives(request, pag_num=1):
-    scrapeProductsByCategory("HardDrives")
+    scrapeProductsByCategory("Discos Duros")
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Discos Duros')[first-1:top]
@@ -146,10 +146,10 @@ def scrapHardDrives(request, pag_num=1):
     return render(request, 'list-products.html', context)
 
 def scrapGraphicCards(request, pag_num=1):
-    scrapeProductsByCategory("GraphicCards")
+    scrapeProductsByCategory("Tarjetas Graficas")
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Tarjetas Gráficas')[first-1:top]
+    products = Product.objects.filter(category='Tarjetas Graficas')[first-1:top]
     total_pages = ceil(Product.objects.count()/12)
     context = {
         'products': products,
@@ -162,10 +162,10 @@ def scrapGraphicCards(request, pag_num=1):
     return render(request, 'list-products.html', context)
 
 def scrapRAM(request, pag_num=1):
-    scrapeProductsByCategory("RAM")
+    scrapeProductsByCategory("Memoria RAM")
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Memorias RAM')[first-1:top]
+    products = Product.objects.filter(category='Memoria RAM')[first-1:top]
     total_pages = ceil(Product.objects.count()/12)
     context = {
         'products': products,
@@ -178,10 +178,10 @@ def scrapRAM(request, pag_num=1):
     return render(request, 'list-products.html', context)
 
 def scrapLaptops(request, pag_num=1):
-    scrapeProductsByCategory("Laptops")
+    scrapeProductsByCategory("Portatiles")
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Portátiles')[first-1:top]
+    products = Product.objects.filter(category='Portatiles')[first-1:top]
     total_pages = ceil(Product.objects.count()/12)
     context = {
         'products': products,
@@ -194,10 +194,10 @@ def scrapLaptops(request, pag_num=1):
     return render(request, 'list-products.html', context)
 
 def scrapGamingLaptops(request, pag_num=1):
-    scrapeProductsByCategory("GamingLaptops")
+    scrapeProductsByCategory("Portatiles Gaming")
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Portátiles Gaming')[first-1:top]
+    products = Product.objects.filter(category='Portatiles Gaming')[first-1:top]
     total_pages = ceil(Product.objects.count()/12)
     context = {
         'products': products,
@@ -213,7 +213,7 @@ def scrapSmartphones(request, pag_num=1):
     scrapeProductsByCategory("Smartphones")
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Smartphone/Móviles')[first-1:top]
+    products = Product.objects.filter(category='Smartphones')[first-1:top]
     total_pages = ceil(Product.objects.count()/12)
     context = {
         'products': products,
@@ -226,7 +226,7 @@ def scrapSmartphones(request, pag_num=1):
     return render(request, 'list-products.html', context)
 
 def scrapTVs(request, pag_num=1):
-    scrapeProductsByCategory("TVs")
+    scrapeProductsByCategory("Televisores")
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Televisores')[first-1:top]
@@ -307,8 +307,8 @@ def listHardDrives(request, pag_num=1):
 def listGraphicCards(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Tarjetas Gráficas')[first-1:top]
-    total_pages = ceil(Product.objects.filter(category='Tarjetas Gráficas').count()/12)
+    products = Product.objects.filter(category='Tarjetas Graficas')[first-1:top]
+    total_pages = ceil(Product.objects.filter(category='Tarjetas Graficas').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -322,8 +322,8 @@ def listGraphicCards(request, pag_num=1):
 def listRAM(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Memorias RAM')[first-1:top]
-    total_pages = ceil(Product.objects.filter(category='Memorias RAM').count()/12)
+    products = Product.objects.filter(category='Memoria RAM')[first-1:top]
+    total_pages = ceil(Product.objects.filter(category='Memoria RAM').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -337,8 +337,8 @@ def listRAM(request, pag_num=1):
 def listLaptops(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Portátiles')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    products = Product.objects.filter(category='Portatiles')[first-1:top]
+    total_pages = ceil(Product.objects.filter(category='Portatiles').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -352,8 +352,8 @@ def listLaptops(request, pag_num=1):
 def listGamingLaptops(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Portátiles Gaming')[first-1:top]
-    total_pages = ceil(Product.objects.filter(category='Portátiles Gaming').count()/12)
+    products = Product.objects.filter(category='Portatiles Gaming')[first-1:top]
+    total_pages = ceil(Product.objects.filter(category='Portatiles Gaming').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -367,8 +367,8 @@ def listGamingLaptops(request, pag_num=1):
 def listSmartphones(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
-    products = Product.objects.filter(category='Smartphone/Móviles')[first-1:top]
-    total_pages = ceil(Product.objects.filter(category='Smartphone/Móviles').count()/12)
+    products = Product.objects.filter(category='Smartphones')[first-1:top]
+    total_pages = ceil(Product.objects.filter(category='Smartphones').count()/12)
     context = {
         'products': products,
         #Variables para paginacion

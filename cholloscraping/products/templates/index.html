@@ -82,23 +82,23 @@
         {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              RecSys
+              Recomendaciones
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="{% url 'loadRS' %}">Load RecSys</a>
+              <a class="dropdown-item" href="{% url 'loadRS' %}">Cargar Sist. Recomendacion</a>
               <a class="dropdown-item" href="{% url 'similarProducts' %}">Productos similares</a>
               <a class="dropdown-item" href="{% url 'recommendedProducts' %}">Recomendar productos</a>
             </div>
           </li>
           <li class="nav-item active">
-            <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+            <a class="nav-item nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
           </li>
         {% else %}
           <li class="nav-item active">
-            <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+            <a class="nav-item nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-item nav-link" href="{% url 'signup' %}">Signup</a>
+            <a class="nav-item nav-link" href="{% url 'signup' %}">Registrarme</a>
           </li>
         {% endif %}
       {% endblock %}
@@ -108,9 +108,9 @@
 
   {% block content %}
     {% if user.is_authenticated %}
-      <h2>Hi {{ user.username }}!</h2>
+      <br><h2 class="text-center">Hola {{ user.username }}!</h2>
     {% else %}
-      <p>You are not logged in</p>
+      <br><p class="text-center">No has iniciado sesión</p>
     {% endif %}
   {% endblock %}
 

@@ -18,7 +18,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=100)
     image = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
-    category = models.CharField(max_length=2, choices = CAT_CHOICES, default = LAPTOPS)
+    category = models.CharField(max_length=40)
     averageRating = models.FloatField(default=0.0)
     
     def __str__(self):

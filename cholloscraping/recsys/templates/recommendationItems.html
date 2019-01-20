@@ -1,17 +1,17 @@
 <html>
 <head>
-<title>Recommender System CholloScraping</title>
+<title>Sistema de Recomendación CholloScraping</title>
 </head>
 <body>
-<h1>Recommended products for the UserID: {{user.id}}</h1>
+<h1>Productos recomendados para el UserID: {{user.id}}</h1>
 {% for item in items %}
 <ul>
-    <li>Brand: {{item.brand}}</li>
-    <li>Name: {{item.name}}</li>
-    <li>AvgRating: {{item.averageRating}}</li>
+    <li>Marca: {{item.brand}}</li>
+    <li>Nombre: {{item.name}}</li>
+    <li>Puntuación media: {{item.averageRating}}</li>
 </ul>
 {% empty %}
-<h2> Insufficient user data </h2>
+<h2> No hay sufucientes datos del usuario </h2>
 {% endfor %}
 </body>
 </html>
