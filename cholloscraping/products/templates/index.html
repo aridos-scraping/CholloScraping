@@ -75,6 +75,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
               <a class="dropdown-item" href="{% url 'insertExamplePrices' %}">Insertar precios ejemplo</a>
+              <a class="dropdown-item" href="{% url 'insertExampleRatings' %}">Insertar ratings ejemplo</a>
             </div>
       {% block authenticationButtons %}
         {% if user.is_authenticated %}

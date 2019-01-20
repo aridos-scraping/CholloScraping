@@ -510,10 +510,20 @@ def insertExampleProductPrices(request):
     for p in products:
         # Adds new random price to product
         actualPrice = Price.objects.filter(product=p).reverse()[0].originalPrice
-        randomPrice = actualPrice+random.randint(1,51)
+        randomPrice = actualPrice+random.randint(1,50)
         newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice, product=p)
         newPrice.save()
         print(p.name+" - "+str(actualPrice)+" -> "+str(randomPrice))
+    return render(request, 'index.html')
+
+def insertExampleRatings(request):
+    products = Product.objects.all()
+    productIndexes = random.sample(range(0, len(products)), round(len(products)/4))
+    for index in productIndexes:
+        product = products[index]
+        product.averageRating = random.randint(1,5)
+        product.save()
+        print(product.name+" - "+str(product.averageRating))
     return render(request, 'index.html')
 
 def index(request):

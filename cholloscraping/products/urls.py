@@ -45,5 +45,6 @@ urlpatterns = [
     path('listTv/',views.listTVs, name='listTv'),
     path('listTv/<slug:pag_num>',views.listTVs, name='listTv'),
     
-    path('insertExamplePrices',views.insertExampleProductPrices, name='insertExamplePrices')
+    path('insertExamplePrices',views.insertExampleProductPrices, name='insertExamplePrices'),
+    path('insertExampleRatings',views.insertExampleRatings, name='insertExampleRatings'),
 ]
