@@ -87,6 +87,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="{% url 'loadRS' %}">Load RecSys</a>
               <a class="dropdown-item" href="{% url 'similarProducts' %}">Productos similares</a>
+              <a class="dropdown-item" href="{% url 'recommendedProducts' %}">Recomendar productos</a>
             </div>
           </li>
           <li class="nav-item active">
@@ -95,6 +96,9 @@
         {% else %}
           <li class="nav-item active">
             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item nav-link" href="{% url 'signup' %}">Signup</a>
           </li>
         {% endif %}
       {% endblock %}

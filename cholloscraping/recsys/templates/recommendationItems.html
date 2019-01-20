@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>Recommender System CholloScraping</title>
+</head>
+<body>
+<h1>Recommended products for the UserID: {{user.id}}</h1>
+{% for item in items %}
+<ul>
+    <li>Brand: {{item.brand}}</li>
+    <li>Name: {{item.name}}</li>
+    <li>AvgRating: {{item.averageRating}}</li>
+</ul>
+{% empty %}
+<h2> Insufficient user data </h2>
+{% endfor %}
+</body>
+</html>
