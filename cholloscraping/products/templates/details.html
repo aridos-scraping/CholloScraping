@@ -51,20 +51,9 @@
 	.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 	</style>
 </head>
-<body>
+<body >
 
-	<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark ">
-		<a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-				<a class="nav-item nav-link" href="{% url 'listProducts' %}">Productos <span class="sr-only">(current)</span></a>
-				<a class="nav-item nav-link" href="{% url 'indexWhoosh' %}">Recargar Whoosh</a>
-			</div>
-		</div>
-	</nav>
+{% include "index.html" %} 
 
 	<h1>Product details</h1> <br>
 	<a href="/products/list-products"> < Volver </a><br>
@@ -121,7 +110,7 @@
 		originalPrices.push('{{price.originalPrice}}');
 	</script>
 {% endfor %}
-	
+
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
