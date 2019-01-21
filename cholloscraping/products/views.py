@@ -94,8 +94,9 @@ def scrapAllProducts(request):
     print("Elapsed time: {0:.3f} (s)".format(end_time-start_time))
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
+    msg = 'Se han insertado {} productos en {} segundos'.format(Product.objects.count(),end_time-start_time)
 
-    return HttpResponse('Se han insertado {} productos en {} segundos'.format(Product.objects.count(),end_time-start_time))
+    return render(request, 'message.html', {'message': msg})
 
 def scrapMotherboards(request, pag_num=1):
     scrapeProductsByCategory('Placas Base')
@@ -481,8 +482,9 @@ def indexWhoosh(request):
     print("Elapsed time: {0:.3f} (s)".format(end_time-start_time))
     #Time spent only CPU    
     print("CPU process time: {0:.3f} (s)".format(end_cpu-start_cpu))
+    msg = '{} productos indexados en {}'.format(len(products),end_time-start_time)
 
-    return HttpResponse('{} products indexed in {}'.format(len(products),end_time-start_time))
+    return render(request, 'message.html', {'message': msg})
 
 #Search-whoosh products by query
 def searchWhoosh(request):
@@ -514,7 +516,9 @@ def insertExampleProductPrices(request):
         newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice, product=p)
         newPrice.save()
         print(p.name+" - "+str(actualPrice)+" -> "+str(randomPrice))
-    return render(request, 'index.html')
+    msg = "Ejemplos de cambios en los precios insertados correctamente"
+
+    return render(request, 'message.html', {'message': msg})
 
 def insertExampleRatings(request):
     products = Product.objects.all()
@@ -524,7 +528,9 @@ def insertExampleRatings(request):
         product.averageRating = random.randint(1,5)
         product.save()
         print(product.name+" - "+str(product.averageRating))
-    return render(request, 'index.html')
+    msg = "Puntuaciones de ejemplo insertadas correctamente"
+
+    return render(request, 'message.html', {'message': msg})
 
 def index(request):
     return render(request, 'index.html')

@@ -22,7 +22,8 @@ def loadDict():
 
 def loadRS(request):
     loadDict()
-    return render(request,'index.html')
+    msg = 'Matriz RecSys cargada correctamente'
+    return render(request, 'message.html', {'message': msg})
 
 def similarProducts(request):
     product = None
