@@ -1,14 +1,19 @@
-<html>
+{% include "index.html" %}
+
+<!--<html>
 <head>
 <title>Sistema de Recomendación CholloScraping</title>
 </head>
 <body>
-<header>
-<h1>Productos recomendados para el User ID</h1>
-<form id='form' method='get' action=''>
-{{form.as_p}}
-<p><input type='submit' value='Confirm'/></p>
-</form>
+<header>-->
 
-</body>
-</html>
+{% block recsys %}
+    <h1>Productos recomendados para el User ID</h1>
+    <form id='form' method='get' action=''>
+        {{form.as_p}}
+        <p><input type='submit' value='Confirm'/></p>
+    </form>
+{% endblock %}
+
+<!--</body>
+</html>-->

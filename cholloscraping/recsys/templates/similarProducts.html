@@ -1,16 +1,20 @@
-<html>
+{% include "index.html" %}
+
+<!--<html>
 <head>
 <title>Sistema de Recomendación CholloScraping</title>
 </head>
 <body>
-<section>
-<h1>Seis productos similares a {{product.name}} are:</h1>
-<l>
-{% for p in products %}
-<li>{{p.name}}</li>
-{% endfor %}
-</l>
-<i>*Para poder realizar mejores recomendaciones se necesita más información.</i>
-</section>
-</body>
-</html>
+-->
+{% block recsys %}
+    <h1>Seis productos similares a {{product.name}} are:</h1>
+    <ul>
+        {% for p in products %}
+        <li>{{p.name}}</li>
+        {% endfor %}
+    </ul>
+    <i>*Para poder realizar mejores recomendaciones se necesita más información.</i>
+{% endblock %}
+
+<!--</body>
+</html>-->

@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import time
 from .models import Product, Price, Rating
+from django.contrib.auth.models import User
 import os.path
 from math import ceil
 import json
@@ -439,15 +440,6 @@ def rateProduct(request, sku, rating):
         productRating.rating = rating
         productRating.save()
 
-    def recalculateProductAverageRating(product):
-        productRatings = Rating.objects.filter(product=product)
-        sumRatings = 0
-        for r in productRatings:
-            sumRatings += r.rating
-        avgProductRating = sumRatings/productRatings.count()
-        product.averageRating = avgProductRating
-        product.save()
-
     prices = Price.objects.filter(product__sku=sku)
     context = {
         'product': product,
@@ -458,6 +450,15 @@ def rateProduct(request, sku, rating):
     recalculateProductAverageRating(product)
 
     return render(request,'details.html',context)
+
+def recalculateProductAverageRating(product):
+    productRatings = Rating.objects.filter(product=product)
+    sumRatings = 0
+    for r in productRatings:
+        sumRatings += r.rating
+    avgProductRating = sumRatings/productRatings.count()
+    product.averageRating = avgProductRating
+    product.save()
 
 #Gets all products from DB and makes index
 def indexWhoosh(request):
@@ -510,6 +511,7 @@ def searchWhoosh(request):
     mimetype = 'application/json'
     return HttpResponse(json.dumps(results_json), mimetype)
 
+#Inserts random price changes (+1-50€) for all products
 def insertExampleProductPrices(request):
     products = Product.objects.all()
     for p in products:
@@ -523,14 +525,29 @@ def insertExampleProductPrices(request):
 
     return render(request, 'message.html', {'message': msg})
 
+
 def insertExampleRatings(request):
     products = Product.objects.all()
     productIndexes = random.sample(range(0, len(products)), round(len(products)/4))
+    users = User.objects.all()
+    for u in users:
+        for index in productIndexes:
+            product = products[index]
+            randomRating = random.randint(1,5)
+            productRating = Rating.objects.filter(product=product, user=request.user).first()
+            if(productRating==None):
+                productRating = Rating(product=product, user=u, rating=randomRating)
+                productRating.save()
+            else:
+                productRating.rating = randomRating
+                productRating.save()
+            
+    #Recalculate avgRating after inserting example ratings
     for index in productIndexes:
         product = products[index]
-        product.averageRating = random.randint(1,5)
-        product.save()
-        print(product.name+" - "+str(product.averageRating))
+        recalculateProductAverageRating(product)
+        print(str(product.sku)+" - "+product.name+" - "+str(product.averageRating))
+    
     msg = "Puntuaciones de ejemplo insertadas correctamente"
 
     return render(request, 'message.html', {'message': msg})
