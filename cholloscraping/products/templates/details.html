@@ -69,6 +69,8 @@
 	<h1>Product details</h1> <br>
 	<a href="/products/list-products"> < Volver </a><br>
 	<h2>{{product.name}}</h2>
+
+	{% if user.is_authenticated %}
 	<fieldset class="rating" onchange="sendRating()" id="rating_field">
     {% if rating == '5' %}
     	<input type="radio" id="star5" checked="checked" name="rating" value="5" /><label class = "full" for="star5" title="Perfecto"></label>
@@ -96,6 +98,8 @@
 		<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Perfecto"></label>
     {% endif %}
 </fieldset><br><br>
+{% endif %}
+
 	<i>Puntuación media: {{product.averageRating}}</i><br><br>
 	<i>Marca: {{product.brand}}</i><br>
 	<i>Categoría: {{product.category}}</i><br>

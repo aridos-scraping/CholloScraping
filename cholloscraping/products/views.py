@@ -414,7 +414,10 @@ def details(request, sku):
     product = Product.objects.get(pk=sku)
     prices = Price.objects.filter(product__sku=sku)
     rating = None
-    productRating = Rating.objects.filter(product=product, user=request.user).first()
+    if(request.user.is_authenticated):
+        productRating = Rating.objects.filter(product=product, user=request.user).first()
+    else:
+        productRating = None
     
     if(productRating!=None):
         rating = str(productRating.rating)
