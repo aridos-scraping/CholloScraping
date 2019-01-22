@@ -542,7 +542,7 @@ def insertExampleRatings(request):
         for index in productIndexes:
             product = products[index]
             randomRating = random.randint(1,5)
-            productRating = Rating.objects.filter(product=product, user=request.user).first()
+            productRating = Rating.objects.filter(product=product, user=u).first()
             if(productRating==None):
                 productRating = Rating(product=product, user=u, rating=randomRating)
                 productRating.save()
