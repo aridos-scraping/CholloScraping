@@ -104,7 +104,7 @@ def scrapMotherboards(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Placas Base')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Placas Base').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -120,7 +120,7 @@ def scrapCPUs(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Procesadores')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Procesadores').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -136,7 +136,7 @@ def scrapHardDrives(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Discos Duros')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Discos Duros').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -152,7 +152,7 @@ def scrapGraphicCards(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Tarjetas Graficas')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Tarjetas Graficas').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -168,7 +168,7 @@ def scrapRAM(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Memoria RAM')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Memoria RAM').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -184,7 +184,7 @@ def scrapLaptops(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Portatiles')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Portatiles').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -200,7 +200,7 @@ def scrapGamingLaptops(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Portatiles Gaming')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Portatiles Gaming').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -216,7 +216,7 @@ def scrapSmartphones(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Smartphones')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Smartphones').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
@@ -232,7 +232,7 @@ def scrapTVs(request, pag_num=1):
     top = int(pag_num)*12
     first = top-11
     products = Product.objects.filter(category='Televisores')[first-1:top]
-    total_pages = ceil(Product.objects.count()/12)
+    total_pages = ceil(Product.objects.filter(category='Televisores').count()/12)
     context = {
         'products': products,
         #Variables para paginacion
