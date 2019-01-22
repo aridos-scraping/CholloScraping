@@ -518,7 +518,15 @@ def insertExampleProductPrices(request):
         # Adds new random price to product
         actualPrice = Price.objects.filter(product=p).reverse()[0].originalPrice
         randomPrice = actualPrice+random.randint(1,50)
-        newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice, product=p)
+
+        #Some products may have a discount
+        hasDiscount = random.randint(0,1)
+        if(hasDiscount==1):
+            newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice, product=p)
+        else:
+            discount = random.randint(1,10)
+            newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice-discount, product=p)
+        
         newPrice.save()
         print(p.name+" - "+str(actualPrice)+" -> "+str(randomPrice))
     msg = "Ejemplos de cambios en los precios insertados correctamente"

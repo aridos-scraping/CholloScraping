@@ -60,6 +60,6 @@ def recommendedProducts(request):
             for re in recommended:
                 item = Product.objects.get(pk=re[1])
                 items.append(item)
-            return render(request,'recommendationItems.html', {'user': user, 'items': items})
+            return render(request,'recommendationItems.html', {'userId': user.id, 'items': items})
     form = UserForm()
     return render(request,'search_user.html', {'form': form})
