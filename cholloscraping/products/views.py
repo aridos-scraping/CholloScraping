@@ -521,7 +521,7 @@ def insertExampleProductPrices(request):
 
         #Some products may have a discount
         hasDiscount = random.randint(0,1)
-        if(hasDiscount==1):
+        if(hasDiscount==0):
             newPrice = Price(originalPrice=randomPrice, currentPrice=randomPrice, product=p)
         else:
             discount = random.randint(1,10)
