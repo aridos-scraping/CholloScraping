@@ -257,7 +257,7 @@ def listAllProducts(request, pag_num=1):
         'pag_num': int(pag_num),
         'total_pages': total_pages,
         'range': range(1, total_pages+1),
-        'redirect_uri': '/products/listAllProducts'
+        'redirect_uri': '/products/listAll'
     }
     return render(request, 'list-products.html', context)
 
@@ -407,7 +407,7 @@ def listMostRatedProducts(request, pag_num=1):
         'pag_num': int(pag_num),
         'total_pages': total_pages,
         'range': range(1, total_pages+1),
-        'redirect_uri': '/products/list-products'
+        'redirect_uri': '/products'
     }
     return render(request, 'list-products.html', context)
 
