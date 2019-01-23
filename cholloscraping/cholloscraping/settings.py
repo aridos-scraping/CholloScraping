@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'recsys',
 ]
 
+BASEURL = 'https://cholloscraping.herokuapp.com/'
+
+APIS = {}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -124,3 +128,6 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+import django_heroku
+django_heroku.settings(locals())
