@@ -15,10 +15,10 @@ class Rating(models.Model):
 
 class Product(models.Model):
     sku = models.CharField(primary_key=True)
-    brand = models.CharField()
-    image = models.CharField()
-    name = models.CharField()
-    category = models.CharField()
+    brand = models.CharField(max_length=255)
+    image = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
     averageRating = models.FloatField(default=0.0)
     
     def __str__(self):
