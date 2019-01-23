@@ -1,8 +1,8 @@
 {% include "navbar.html" %}
 
-<h2>Login</h2>
+<h2>Inicio de sesión</h2>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Login</button>
+  <button type="submit">Iniciar sesión</button>
 </form>
