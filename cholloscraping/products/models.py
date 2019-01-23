@@ -14,7 +14,7 @@ class Rating(models.Model):
 
 
 class Product(models.Model):
-    sku = models.CharField(primary_key=True)
+    sku = models.CharField(primary_key=True, max_length=255)
     brand = models.CharField(max_length=255)
     image = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
