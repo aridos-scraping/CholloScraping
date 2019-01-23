@@ -536,9 +536,10 @@ def insertExampleProductPrices(request):
 
 def insertExampleRatings(request):
     products = Product.objects.all()
-    productIndexes = random.sample(range(0, len(products)), round(len(products)/4))
+    productIndexes = random.sample(range(0, len(products)), round(len(products)/8))
     users = User.objects.all()
     for u in users:
+        print('Introduciendo puntuaciones para el usuario ' + str(u) +'...')
         for index in productIndexes:
             product = products[index]
             randomRating = random.randint(1,5)

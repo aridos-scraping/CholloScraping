@@ -32,14 +32,15 @@ def similarProducts(request):
         if form.is_valid():
             idProduct = form.cleaned_data['id']
             product = get_object_or_404(Product, pk=idProduct)
-            shelf = shelve.open("dataRS.dat")
-            ItemsPrefs = shelf['ItemsPrefs']
-            shelf.close()
-            recommended = topMatches(ItemsPrefs, int(idProduct),n=6)
             items=[]
-            for re in recommended:
-                item = Product.objects.get(pk=int(re[1]))
-                items.append(item)
+            if(product.averageRating!=0):
+                shelf = shelve.open("dataRS.dat")
+                ItemsPrefs = shelf['ItemsPrefs']
+                shelf.close()
+                recommended = topMatches(ItemsPrefs, int(idProduct),n=6)
+                for re in recommended:
+                    item = Product.objects.get(pk=int(re[1]))
+                    items.append(item)
             return render(request,'similarProducts.html', {'product': product,'products': items})
     form = ProductForm()
     return render(request,'search_product.html', {'form': form})
